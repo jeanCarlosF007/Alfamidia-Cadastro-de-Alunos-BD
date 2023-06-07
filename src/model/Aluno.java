@@ -5,6 +5,10 @@ public class Aluno {
 	private int id;
 	private String nome;
 	
+	public Aluno (String nome) {
+		this.nome = nome;
+	}
+	
 	public Aluno(Integer id, String nome) {
 		this.id = id;
 		this.nome = nome;
@@ -28,7 +32,7 @@ public class Aluno {
 
 	@Override
 	public String toString() {
-		return "Aluno ID: " + id + ", Nome: " + nome;
+		return  this.id + ": " + nome;
 	}
 	
 	

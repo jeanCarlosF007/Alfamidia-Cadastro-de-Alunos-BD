@@ -6,5 +6,6 @@ public interface BancoDeDados <T> {
 	
 	public T inserir (T t);
 	public List<T> consultaTodos();
+	public T atualizar (T t);
 
 }

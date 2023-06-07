@@ -12,6 +12,7 @@ import model.Aluno;
 
 public class AlunoRepository implements BancoDeDados<Aluno>{
 	
+	@Override
 	public Aluno inserir(Aluno aluno) {
 		String sql = "INSERT INTO alunos (nome) VALUES (?)";
 		
@@ -56,8 +57,8 @@ public class AlunoRepository implements BancoDeDados<Aluno>{
 			ResultSet resultado = ps.executeQuery();
 			
 			while (resultado.next()) {
-				int id = resultado.getInt(1);
-				String nome = resultado.getString(2);
+				int id = resultado.getInt("id");
+				String nome = resultado.getString("nome");
 				Aluno aluno = new Aluno(id, nome);
 				alunos.add(aluno);
 			}
@@ -70,5 +71,32 @@ public class AlunoRepository implements BancoDeDados<Aluno>{
 		}
 		return alunos;
 	}
+
+	@Override
+	public Aluno atualizar(Aluno aluno) {
+		
+		String sql = "UPDATE alunos SET nome = ? WHERE id = ?";
+		Connection conexao = ConexaoBD.obterConexao();
+		
+		try {
+			
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			ps.setString(1, aluno.getNome());
+			ps.setInt(2, aluno.getId());
+			
+			int resultado = ps.executeUpdate();
+			
+			if (resultado > 0) {
+				System.out.println("Atualização realizada com sucesso!");
+			}			
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar aluno + " + e.getMessage());
+		} finally {
+			ConexaoBD.fecharConexao();
+		}		
+		return aluno;
+	}
+	
+	
 
 }
