@@ -8,9 +8,9 @@ public class Principal {
 		AlunoRepository alunoRepository = new AlunoRepository();
 		System.out.println(alunoRepository.consultaTodos());
 		
-		Aluno aluno = new Aluno(1, "Marcos");
-		alunoRepository.atualizar(aluno);
-		alunoRepository.consultaTodos().forEach(System.out::println);
+		
+		System.out.println(alunoRepository.buscarPorId(4));
+		
 		
 		
 	}

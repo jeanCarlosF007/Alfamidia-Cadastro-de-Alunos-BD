@@ -96,6 +96,58 @@ public class AlunoRepository implements BancoDeDados<Aluno>{
 		}		
 		return aluno;
 	}
+
+	@Override
+	public void deletar(int id) {
+		
+		String sql = "DELETE FROM alunos WHERE id = ?";
+		Connection conexao = ConexaoBD.obterConexao();
+		
+		try {
+			
+			PreparedStatement ps= conexao.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			int resultado = ps.executeUpdate();
+			if (resultado > 0) {
+				System.out.println("Cadastro excluído com sucesso!");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao deletar aluno " + e.getMessage());
+		} finally {
+			ConexaoBD.fecharConexao();
+		}		
+	}
+
+	@Override
+	public Aluno buscarPorId(int id) {
+
+		String sql = "SELECT * FROM alunos WHERE id = ?";
+		Connection conexao = ConexaoBD.obterConexao();
+		
+		try {
+			
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			ResultSet resultado = ps.executeQuery();
+			
+			while (resultado.next()) {
+				int idExibido = resultado.getInt("id");
+				String nome = resultado.getString("nome");
+				
+				return new Aluno(idExibido, nome);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar a id " + id + " -> " + e.getMessage());
+		} finally {
+			ConexaoBD.fecharConexao();
+		}
+		
+		return null;
+	}
 	
 	
 
